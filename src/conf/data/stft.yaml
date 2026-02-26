@@ -1,0 +1,6 @@
+name: stft
+
+kwargs:
+  apply_transform: 'stft'
+  window_size: 48000 
+  stride: 48000

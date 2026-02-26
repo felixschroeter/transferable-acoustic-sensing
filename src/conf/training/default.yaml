@@ -1,0 +1,7 @@
+batch_size: 64
+num_workers: 8
+persistent_workers: True
+prefetch_factor: 20
+pin_memory: True
+test_size: 0.2
+max_epochs: null

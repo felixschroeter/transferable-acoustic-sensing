@@ -1,0 +1,6 @@
+name: raw
+
+kwargs:
+  apply_transform: 'none'
+  window_size: 48000 
+  stride: 1000

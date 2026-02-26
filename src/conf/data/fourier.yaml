@@ -1,0 +1,6 @@
+name: fourier
+
+kwargs:
+  apply_transform: 'fft'
+  window_size: 48000 
+  stride: 1000

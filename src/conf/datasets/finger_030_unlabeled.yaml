@@ -1,0 +1,5 @@
+finger_030_unlabeled:
+  paths: ['20251207_with_stand_sweep_unlabeled_finger_030'] 
+  description: "unlabeled dataset where the finger was excited in different ways" 
+  finger_id: '030'
+  exclude_files: [0_sweep.wav, sensor_model.pkl]

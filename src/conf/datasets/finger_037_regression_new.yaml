@@ -1,0 +1,5 @@
+finger_037_regression_new:
+  paths: ['20260117_with_stand_sweep_regression_newmethod_finger_037'] 
+  description: "sweep, with stand, regression problem with 0.5 cm steps along the finger top" 
+  finger_id: '037'
+  exclude_files: [0_sweep.wav, sensor_model.pkl]

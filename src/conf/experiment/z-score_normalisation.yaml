@@ -1,0 +1,17 @@
+# @package _global_
+experiment_name: z-score_normalisation
+
+defaults:
+  - override /model: identity_model
+
+apply_norm: z-score 
+
+evaluate_classification_datasets: 
+  - finger_029_classification_combined
+  - finger_030_classification_combined
+
+evaluate_regression_datasets:
+  - finger_030_regression_new
+  - finger_037_regression_new
+  - finger_032_regression_new
+  - finger_035_regression_new

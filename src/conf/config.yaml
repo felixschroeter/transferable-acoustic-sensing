@@ -1,0 +1,39 @@
+experiment_name: default
+
+data_basedir: project_root/data
+random_seed: 1337
+output_dir: project_root/experiments 
+
+defaults:
+  - model: mlp
+  - data: stft
+  - training: default
+  - datasets: [finger_030_unlabeled, finger_032_unlabeled, finger_029_classification_combined, finger_030_classification_combined, finger_032_classification_combined, finger_030_regression, finger_032_regression, finger_035_unlabeled, finger_037_unlabeled,  finger_030_regression_new, finger_032_regression_new, finger_035_regression_new, finger_037_regression_new] 
+
+apply_norm: z-score
+
+train_datasets: 
+  - finger_030_unlabeled
+  - finger_032_unlabeled
+  - finger_035_unlabeled
+  - finger_037_unlabeled
+train_regression_datasets: 
+  - finger_032_regression_new
+  - finger_035_regression_new
+  - finger_030_regression_new
+  - finger_037_regression_new
+
+test_datasets: 
+  - finger_029_classification_combined
+
+evaluate_classification_datasets:
+  - finger_029_classification_combined
+  - finger_030_classification_combined
+  - finger_032_classification_combined
+
+evaluate_regression_datasets:
+  - finger_032_regression_new
+  - finger_035_regression_new
+  - finger_030_regression_new
+  - finger_037_regression_new
+

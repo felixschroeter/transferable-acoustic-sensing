@@ -1,0 +1,10 @@
+name: mlp
+
+kwargs:
+  latent_dims: 64
+  domain_latent_dims: 4
+  encoder_hidden_dims: [1024, 128, 128]
+  decoder_hidden_dims : [128, 128, 1024]
+  domain_classifier_hidden_dims : [16, 8]
+  use_batch_norm: True
+  use_GeLU: True

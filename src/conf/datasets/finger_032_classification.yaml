@@ -1,0 +1,5 @@
+finger_032_classification:
+  paths: ['20251110_with_stand_sweep_1s_finger_032'] 
+  description: "no sweep, with stand, 4 class classification problem"
+  finger_id: '032'
+  exclude_files: [0_sweep.wav, sensor_model.pkl]
