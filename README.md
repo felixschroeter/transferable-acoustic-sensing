@@ -22,26 +22,26 @@ uv sync
 
 ## Repository Structure
 At the top level this repository is organized into:
-`./analysis_data/` -> contains the dataframes that are the basis for the analysis and plots
-`./plots/` -> all plots features in the scientific report
-`./src/` -> the source code
-`./uv.lock` and `./pyproject.toml` -> uv dependency management
-`./run_mlfow.sh` -> shortcut script to start the MLFLow server
-`./README.md` -> this file
-`./data/` -> the audio files for the different datasets
+- `./analysis_data/` -> contains the dataframes that are the basis for the analysis and plots
+- `./plots/` -> all plots features in the scientific report
+- `./src/` -> the source code
+- `./uv.lock` and `./pyproject.toml` -> uv dependency management
+- `./run_mlfow.sh` -> shortcut script to start the MLFLow server
+- `./README.md` -> this file
+- `./data/` -> the audio files for the different datasets
 
 In the source folder, there are the following files:
-`./src/main.py` -> run the training of the ml pipeline
-`./src/morphembed.py` -> the training run logic implemented in a torch lightning module
-`./src/finger_scaling_laws.py` -> run the finger scaling law experiment
-`./src/fit_affine_transforms.py.py` -> run the affine transformation experiment
-`./src/evaluation.py` -> the transferability evaluation that is called from the pipeline and some scripts 
-`./src/create_plots.py` -> script to create all plots
-`./src/datamodule.py` and `./src/datasets.py` -> everything related to datasets and dataloading
-`./src/losses.py` -> the loss functions
-`./src/models.py` -> the neural network definitions
-`./src/utils.py` and `./src/preprocessing.py` -> different utility functions around initial dataloading, fourier transform and others
-`./src/explore_automl.py` -> exploratory AutoML script
+- `./src/main.py` -> run the training of the ml pipeline
+- `./src/morphembed.py` -> the training run logic implemented in a torch lightning module
+- `./src/finger_scaling_laws.py` -> run the finger scaling law experiment
+- `./src/fit_affine_transforms.py.py` -> run the affine transformation experiment
+- `./src/evaluation.py` -> the transferability evaluation that is called from the pipeline and some scripts 
+- `./src/create_plots.py` -> script to create all plots
+- `./src/datamodule.py` and `./src/datasets.py` -> everything related to datasets and dataloading
+- `./src/losses.py` -> the loss functions
+- `./src/models.py` -> the neural network definitions
+- `./src/utils.py` and `./src/preprocessing.py` -> different utility functions around initial dataloading, fourier transform and others
+- `./src/explore_automl.py` -> exploratory AutoML script
 
 The configuration is done using [hydra.cc](https://hydra.cc/) in the `./src/conf/` folder:
 - `conf/config.yaml` -> the main config, contains the default values for the subconfigs in the subfolders and which datasets to include.
@@ -50,6 +50,18 @@ The configuration is done using [hydra.cc](https://hydra.cc/) in the `./src/conf
 - `conf/experiment` -> pre-configured experiments to run, e.g. to generate data normalized in different ways
 - `conf/model/*` -> the available models and their parameter, e.g. latent dimensions or sizes of hidden layers
 - `conf/training/*` -> the training hyperparameter configuration with e.g. batch_size, max_epochs, etc.
+
+## Datasets
+All the data is inside `./data/` with each dataset in different subfolder.
+Within each dataset folder, the following file can be found:
+- `0_sweep.wav` which is the active sound played.
+- Files like `100_none.wav` or `17_7.5.wav` where the first part before the underscore is the sample id, and the second part "none" or "7.5" are the labels.
+- ".pkl" files for models (can be ignored)
+The regression and classification datasets have many samples of one second length,
+the unlabeled datasets contain only one long sample (10 mins) with the active sound being repeatedly played for one second.
+
+The datasets and tasks are described in more detail in the scientific report.
+
 
 ## Starting a Training Run for the Neural Network
 To start a training run without further configuration, you can run:
