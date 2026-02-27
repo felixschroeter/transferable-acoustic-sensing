@@ -52,13 +52,15 @@ The configuration is done using [hydra.cc](https://hydra.cc/) in the `./src/conf
 - `conf/training/*` -> the training hyperparameter configuration with e.g. batch_size, max_epochs, etc.
 
 ## Datasets
-All the data is inside `./data/` with each dataset in different subfolder.
+All the data is inside `./data/` with each dataset from one recording session in a different subfolder.
 Within each dataset folder, the following file can be found:
 - `0_sweep.wav` which is the active sound played.
 - Files like `100_none.wav` or `17_7.5.wav` where the first part before the underscore is the sample id, and the second part "none" or "7.5" are the labels.
 - ".pkl" files for models (can be ignored)
 The regression and classification datasets have many samples of one second length,
 the unlabeled datasets contain only one long sample (10 mins) with the active sound being repeatedly played for one second.
+
+It is not recommended to work with these folders directly, but rather refer to the dataset configurations `./src/conf/datasets/` which combine the paths and contain a description.
 
 The datasets and tasks are described in more detail in the scientific report.
 
