@@ -243,10 +243,10 @@ def create_affine_plots():
     Requires the corresponding datasets to be available at <project_root>/analysis_data/...
     """
     df_nonorm = pd.read_json(
-        "./analysis_data/test_results_regression_nonorm.json", orient="split"
+        "./analysis_data/test_results_regression_no_norm.json", orient="split"
     )
     df_zscore = pd.read_json(
-        "./analysis_data/test_results_regression_with_z-score.json", orient="split"
+        "./analysis_data/test_results_regression_z-score.json", orient="split"
     )
     df_nonorm.columns = [
         f"{col}.{value}" if value != "" else col for col, value in df_nonorm.columns

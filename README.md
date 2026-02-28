@@ -57,6 +57,7 @@ Within each dataset folder, the following file can be found:
 - `0_sweep.wav` which is the active sound played.
 - Files like `100_none.wav` or `17_7.5.wav` where the first part before the underscore is the sample id, and the second part "none" or "7.5" are the labels.
 - ".pkl" files for models (can be ignored)
+
 The regression and classification datasets have many samples of one second length,
 the unlabeled datasets contain only one long sample (10 mins) with the active sound being repeatedly played for one second.
 
@@ -134,3 +135,4 @@ Navigate to the project root and run:
 uv run src/fit_affine_transforms.py
 ```
 The output is saved to `<project_root>/analysis_data/affine_transformations_results.parquet` and can now be plotted.
+

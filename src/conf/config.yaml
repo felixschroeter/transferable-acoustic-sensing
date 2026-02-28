@@ -1,8 +1,8 @@
 experiment_name: default
 
-data_basedir: project_root/data
+data_basedir: /home/felix/code/projects/robotics/transferring_ml_models_to_new_actuators/data
 random_seed: 1337
-output_dir: project_root/experiments 
+output_dir: /home/felix/projects/robotics/transferring_ml_models_to_new_actuators/data/experiments 
 
 defaults:
   - model: mlp
