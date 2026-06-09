@@ -1,10 +1,8 @@
 """
 explore_automl.py
 
-Contains the code to for a simple AutoML pipeline to find suitable models for our data.
-We ran this with different configs to identify interesing models.
-
-Generated using ChatGPT and then adapted
+Contains the code for a simple AutoML pipeline to find suitable models for our data.
+We ran this with different configs to identify interesting models.
 """
 
 # Install FLAML if not already installed

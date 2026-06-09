@@ -1,9 +1,10 @@
-# Technical Report: Transferring Machine Learning Models to New Soft Pneumatic Actuators
-The goal of this project was to develop calibration methods to make machine learning models more transferable to unseen soft pneumatic actuators.
+# Transferring Machine Learning Models to New Soft Pneumatic Actuators
 
-The design and experiments that we ran are described in detail in the corresponding scientific report.
-This technical report focuses on explaining how to reproduce the results from the paper and to serve as a starting point for further development.
+Soft pneumatic actuators can be turned into tactile sensors with **active acoustic sensing**: a known sound is played through the actuator and the structure-borne response is recorded, from which a model infers the contact state (e.g. touch location). A model trained on one actuator, however, transfers poorly to a physically different one. This project develops and evaluates **calibration methods that make such models more transferable to unseen actuators**.
 
+The main finding is that calibrating the acoustic representation — through per-actuator normalization and a lightweight **affine alignment** of embedding spaces — substantially improves cross-actuator transfer, and that transfer keeps improving as more actuators are added to the training set.
+
+📄 The full methodology, experimental design, and quantitative results are in the [scientific report](./Robotics_Project_Report_submission.pdf). This README focuses on reproducing those results and on serving as a starting point for further development.
 
 
 ## Environment Setup
@@ -23,10 +24,10 @@ uv sync
 ## Repository Structure
 At the top level this repository is organized into:
 - `./analysis_data/` -> contains the dataframes that are the basis for the analysis and plots
-- `./plots/` -> all plots features in the scientific report
+- `./plots/` -> all plots featured in the scientific report
 - `./src/` -> the source code
 - `./uv.lock` and `./pyproject.toml` -> uv dependency management
-- `./run_mlfow.sh` -> shortcut script to start the MLFLow server
+- `./run_mlflow.sh` -> shortcut script to start the MLflow server
 - `./README.md` -> this file
 - `./data/` -> the audio files for the different datasets
 
@@ -34,7 +35,7 @@ In the source folder, there are the following files:
 - `./src/main.py` -> run the training of the ml pipeline
 - `./src/morphembed.py` -> the training run logic implemented in a torch lightning module
 - `./src/finger_scaling_laws.py` -> run the finger scaling law experiment
-- `./src/fit_affine_transforms.py.py` -> run the affine transformation experiment
+- `./src/fit_affine_transforms.py` -> run the affine transformation experiment
 - `./src/evaluation.py` -> the transferability evaluation that is called from the pipeline and some scripts 
 - `./src/create_plots.py` -> script to create all plots
 - `./src/datamodule.py` and `./src/datasets.py` -> everything related to datasets and dataloading
@@ -45,7 +46,7 @@ In the source folder, there are the following files:
 
 The configuration is done using [hydra.cc](https://hydra.cc/) in the `./src/conf/` folder:
 - `conf/config.yaml` -> the main config, contains the default values for the subconfigs in the subfolders and which datasets to include.
-- `conf/data/*` -> contains the different configuration (raw, stft, ft) for loading the audio (e.g. window size, stft transform)
+- `conf/data/*` -> contains the different configuration (raw, stft, fft) for loading the audio (e.g. window size, stft transform)
 - `conf/datasets/*` -> the dataset configuration, contains the finger identifier, a short description and which files to include.
 - `conf/experiment` -> pre-configured experiments to run, e.g. to generate data normalized in different ways
 - `conf/model/*` -> the available models and their parameter, e.g. latent dimensions or sizes of hidden layers
@@ -85,15 +86,15 @@ The plots are saved to `./plots`
 First, we need to create the z-score normalized and stft transformed data, this is required to be able to run the affine transformation and finger scaling law experiments.
 
 ###  Create the Z-Score Normalized STFT Transformed Data
-Make sure MLFlow is running and you followed the environment setup guide.
+Make sure MLflow is running and you followed the environment setup guide.
 ```bash
-sh run_mlfow.sh
+sh run_mlflow.sh
 ```
 - Run this command:
 ```
 uv run src/main.py  +experiment=no_normalisation
 ```
-- Go to the MLFlow Dashboard at `localhost:5000` 
+- Go to the MLflow Dashboard at `localhost:5000` 
 - Navigate to the last run in the default experiment
 - Go to the artifacts tab
 - Download the `all_embeddings.parquet` file
@@ -101,15 +102,15 @@ uv run src/main.py  +experiment=no_normalisation
 
 ### Normalization Evaluation Datasets
 For creating the evaluation results for the different normalizations, follow these steps:
-- Make sure MLFlow is running and you followed the environment setup guide.
+- Make sure MLflow is running and you followed the environment setup guide.
 ```bash
-sh run_mlfow.sh
+sh run_mlflow.sh
 ```
 - Create the different norm datasets by running (at the project root):
 ```bash
-uv run src/main.py --multirun +experiment=no_normalisation,min-max_normalisation,z-score_normalisation.yaml
+uv run src/main.py --multirun +experiment=no_normalisation,min-max_normalisation,z-score_normalisation
 ```
-- Go to the MLFlow Dashboard at `localhost:5000` and navigate to the default experiment
+- Go to the MLflow Dashboard at `localhost:5000` and navigate to the default experiment
 - For each of the last three runs:
     - Open the run and check the description, it should contain one of `no_norm`, `z-score_normalisation`, or `min-max_normalisation`.
     - Go to the artifacts tab and download the `test_results_regression.json` file
@@ -135,4 +136,9 @@ Navigate to the project root and run:
 uv run src/fit_affine_transforms.py
 ```
 The output is saved to `<project_root>/analysis_data/affine_transformations_results.parquet` and can now be plotted.
+
+## Acknowledgments
+- Audio loading and the label-parsing helper build on the [acoustic sensing starter kit](https://git.tu-berlin.de/rbo/robotics/acoustic_sensing_starter_kit).
+- AI coding assistants were used for boilerplate utilities and exploratory plotting code. 
+The methods, experimental design, and analysis are the author's own. 
 

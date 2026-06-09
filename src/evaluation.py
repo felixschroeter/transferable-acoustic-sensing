@@ -106,7 +106,7 @@ def fit_and_evaluate(
     use_pca=False,
 ):
     """
-    Fit a model on a specifc train and test set, evaluate it and return the results as a dictionary.
+    Fit a model on a specific train and test set, evaluate it and return the results as a dictionary.
     - `model`: sklearn compatible model
     - `model_name`: identifier that is added to the return dictionary
     - `task`: "regression" or "classification"
@@ -169,12 +169,12 @@ def run_downstream_evaluation(
     """
     Run the transferability evaluation for a dataframe of representations.
     - `all_results_df`: the dataframe that contains the embeddings
-    - `num_evaluations`: how many random seeds to rerun this evaluatoin with
+    - `num_evaluations`: how many random seeds to rerun this evaluation with
     - `is_affine`: if we are evaluating an affine transformation
-    - `finger_to`: only for the affine transformation, the finger we are mapping to using the affine transfrom
+    - `finger_to`: only for the affine transformation, the finger we are mapping to using the affine transform
     - `is_scaling_law`: if we are evaluating the finger scaling law
     - `train_id`: only scaling law: the finger_ids of the fingers in the train set
-    - `use_pca`: wether to use PCA to reduce dimensionality before fitting models on the embeddings
+    - `use_pca`: whether to use PCA to reduce dimensionality before fitting models on the embeddings
     returns:
         - df_classification, df_regression
         the results for the classification and regression tasks
@@ -221,9 +221,9 @@ def run_downstream_evaluation(
             models = regression_models
             results = results_regression
 
-        # loop through the random seeds an fit the models
+        # loop through the random seeds and fit the models
         for i in tqdm.tqdm(
-            range(0, num_evaluations), desc="looping trough random seeds"
+            range(0, num_evaluations), desc="looping through random seeds"
         ):
             x_train, x_test, y_train, y_test = train_test_split(
                 x_this,
@@ -277,7 +277,6 @@ def embedding_pca(all_results_df, task, title):
         - `title`: title for the plot
 
     returns a PCA plot
-    Initial version generated using ChatGPT and then adapted
     """
     # concat dfs with finger id
     df = all_results_df[all_results_df["task"] == task].copy()
@@ -311,7 +310,6 @@ def embedding_tsne(all_results_df, task, title):
         - `title`: title for the plot
 
     returns a T-SNE plot
-    Initial version generated using ChatGPT and then adapted
     """
     # concat dfs with finger id
     df = all_results_df[all_results_df["task"] == task].copy()

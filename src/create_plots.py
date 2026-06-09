@@ -38,9 +38,7 @@ def create_bar_plot(
     - `file_path`: location to save the resulting plot too, the file ending specifies the resulting format.
     - `score`: the score to use for this plot, either r2 or mae
     - `title`: default None, if no title is provided it is generated from the `score` and `x_label`
-    - `x_label`: default None, labels the x-axis, and is ommitted if no labels is provdided
-
-    The code for this function was generated using ChatGPT and then adapted.
+    - `x_label`: default None, labels the x-axis, and is omitted if no labels are provided
     """
     # set the score so it is compatible with the dataframe format
     if score == "mae":
@@ -295,8 +293,6 @@ def create_affine_plots():
 def set_publication_style():
     """
     Sets global styling defaults for matplotlib
-
-    Generated and adapted using ChatGPT
     """
     plt.rcParams.update({
         "font.size": 17,  # base font

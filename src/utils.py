@@ -119,8 +119,6 @@ def compute_per_freq_mean_std(dataset):
     """
     Computes the mean and std for each frequency in `dataset`.
     - `dataset`: the dataset to find the values for mean and std in
-
-    Generated using ChatGPT and slightly adapted
     """
     loader = torch.utils.data.DataLoader(
         dataset, batch_size=64, shuffle=False, num_workers=4
@@ -152,9 +150,7 @@ def compute_per_freq_mean_std(dataset):
 def compute_per_freq_min_max(dataset):
     """
     Computes the min and max for each frequency in `dataset`.
-    - `dataset`: the dataset to find the values for mean and std in
-
-    Generated using ChatGPT and slightly adapted
+    - `dataset`: the dataset to find the values for min and max in
     """
     loader = torch.utils.data.DataLoader(
         dataset, batch_size=64, shuffle=False, num_workers=4

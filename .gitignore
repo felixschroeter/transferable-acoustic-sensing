@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Tooling caches
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# MLflow / training artifacts
+mlflow.db
+mlruns/
+lightning_logs/
+*.ckpt
+
+# Hydra outputs
+outputs/
+multirun/
+
+# Pickled models (regenerated; see README)
+*.pkl
+
+# OS
+.DS_Store

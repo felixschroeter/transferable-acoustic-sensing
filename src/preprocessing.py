@@ -12,16 +12,20 @@ import torch
 import torchaudio
 
 
+# Number of FFT bins used for the STFT. The resulting spectrum has
+# STFT_N_FFT // 2 + 1 frequency bins, which sets the model input dimension
+# (see models.MLP). Keep this in sync with the model if it ever changes.
+STFT_N_FFT = 4096
+
+
 @functools.lru_cache(maxsize=10000)
-def apply_stft(sound, n_fft=4096, use_log=True, device="cpu"):
+def apply_stft(sound, n_fft=STFT_N_FFT, use_log=True, device="cpu"):
     """
     Applies short-time fourier transform to `sound`.
     - `sound`: the input sample
     - `n_fft`: n_fft parameter of the stft
     - `use_log`: if True, apply log to the spectrum
     - `device`: device that the tensor is on, default `cpu`
-
-    generated with ChatGPT and adapted
     """
     sound = sound.to(device)
 

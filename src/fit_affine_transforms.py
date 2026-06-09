@@ -1,11 +1,11 @@
 """
-fit_affine_transform.py
+fit_affine_transforms.py
 
 Contains the code for fitting an affine transform, the AffineEmbedder class for encapsulating this transform
 and the code to evaluate the effect of the affine transformation.
 
 usage (from project root):
-    - uv run src/fit_affine_transform.py
+    - uv run src/fit_affine_transforms.py
 
 """
 
@@ -26,8 +26,6 @@ def fit_affine_xy(X, Y):
     Returns:
         A: (d, d)
         b: (d,)
-
-    Generated using ChatGPT
     """
     X = np.asarray(X)
     Y = np.asarray(Y)
@@ -74,7 +72,7 @@ class AffineEmbedder:
 def evaluate_from_to(df_mean, df_eval, finger_from, finger_to):
     """
     Fits an affine transform from `finger_from` to `finger_to` using the per label means
-    in `df_mean` and then evalute it using `df_eval` which contains all samples
+    in `df_mean` and then evaluate it using `df_eval` which contains all samples
     - `df_mean`: per label means over all samples for a finger
     - `df_eval`: all samples for all fingers
     - `finger_from`: string id of the "from" finger
@@ -106,7 +104,7 @@ def evaluate_from_to(df_mean, df_eval, finger_from, finger_to):
     # fit the affine embedding
     embedder = AffineEmbedder(X, Y)
 
-    # embedd all samples from the "from" finger to the space of the "to" finger
+    # embed all samples from the "from" finger to the space of the "to" finger
     X_eval = np.vstack(df_eval.loc[mask_from_eval, "embeddings"].values)
     embeddings = embedder(X_eval)
 
@@ -137,8 +135,6 @@ def evaluate_from_to(df_mean, df_eval, finger_from, finger_to):
 def mean_lists(series_of_lists):
     """
     helper function to stack lists from a dataframe
-
-    Generated using ChatGPT
     """
     # Stack the lists into a 2D array and take mean along axis=0
     return np.mean(np.stack(series_of_lists), axis=0)

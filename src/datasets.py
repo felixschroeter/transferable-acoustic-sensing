@@ -33,7 +33,7 @@ class AudioFile:
 
     def __getitem__(self, i):
         """
-        Returns a subset of entries from the audio file, supports slicing and adds zero padding if the slice is to large.
+        Returns a subset of entries from the audio file, supports slicing and adds zero padding if the slice is too large.
         - `i`: index or slice
         """
         if isinstance(i, slice):
@@ -41,7 +41,7 @@ class AudioFile:
             if stop <= len(self):
                 sound = self.sound[start:stop]
             else:
-                padding_length = len(self) - stop
+                padding_length = stop - len(self)
                 sound = torch.nn.functional.pad(self.sound[start:], (0, padding_length))
         else:
             sound = self.sound[i]
@@ -68,13 +68,13 @@ class UnlabeledDomainDataset(torch.utils.data.Dataset):
         """
         Creates a new UnlabeledDomainDataset.
         - `paths`: the file paths of all audio files to be included in this set
-        - `domain`: the domain (i.e. actuator) that all the audio files were recorded o
+        - `domain`: the domain (i.e. actuator) that all the audio files were recorded on
         - `window_size`: how many entries from the file to retrieve at once,
             e.g. 48000 if we sample at 48000Hz and want one second samples
         - `stride`: offset from the start of one window to the next one
         - `drop_before_sample`: drop this many entries from the file before each window,
             can be used to remove breaks between sweeps
-        - `apply_transform`: default None, supports "stft" or "ft" preprocessing of the data
+        - `apply_transform`: default None, supports "stft" or "fft" preprocessing of the data
         - `return_file_idx`: default False, returns the internal id for the audio file,
             should only be used if this dataset is wrapped in another dataset class such as LabeledDomainDataset
         """
@@ -136,7 +136,7 @@ class UnlabeledDomainDataset(torch.utils.data.Dataset):
         """
         Create a new unlabeled dataset from a config.
 
-        - `domain`: the domain (i.e. actuator) that all the audio files were recorded o
+        - `domain`: the domain (i.e. actuator) that all the audio files were recorded on
         - `dataset_config`: a hydra dataset config
         - `data_basedir`: the directory in which all folder for all datasets are saved
         - `window_size`: how many entries from the file to retrieve at once,
@@ -144,7 +144,7 @@ class UnlabeledDomainDataset(torch.utils.data.Dataset):
         - `stride`: offset from the start of one window to the next one
         - `drop_before_sample`: drop this many entries from the file before each window,
             can be used to remove breaks between sweeps
-        - `apply_transform`: default None, supports "stft" or "ft" preprocessing of the data
+        - `apply_transform`: default None, supports "stft" or "fft" preprocessing of the data
 
         """
         paths = utils.load_paths(dataset_config, data_basedir)
@@ -163,8 +163,6 @@ class UnlabeledDomainDataset(torch.utils.data.Dataset):
     def _get_file_and_within_file_index(self, idx):
         """
         Find and return the internal file_idx where the sample with `idx` is stored.
-
-        The bisect logic was generated with ChatGPT
         """
         file_id = bisect.bisect(self.max_index_per_file, idx) - 1
 
@@ -183,7 +181,7 @@ class UnlabeledDomainDataset(torch.utils.data.Dataset):
         # find out which file this id is saved in
         file_id, in_file_idx = self._get_file_and_within_file_index(idx)
 
-        # get the offset inside te file
+        # get the offset inside the file
         start = self.drop_before_sample + in_file_idx * self.stride
 
         # retrieve the sample
@@ -263,7 +261,7 @@ class LabeledDomainDataset(torch.utils.data.Dataset):
         """
         Create a new labeled dataset from a config.
 
-        - `domain`: the domain (i.e. actuator) that all the audio files were recorded o
+        - `domain`: the domain (i.e. actuator) that all the audio files were recorded on
         - `dataset_config`: a hydra dataset config
         - `data_basedir`: the directory in which all folder for all datasets are saved
         - `window_size`: how many entries from the file to retrieve at once,
@@ -271,7 +269,7 @@ class LabeledDomainDataset(torch.utils.data.Dataset):
         - `stride`: offset from the start of one window to the next one
         - `drop_before_sample`: drop this many entries from the file before each window,
             can be used to remove breaks between sweeps
-        - `apply_transform`: default None, supports "stft" or "ft" preprocessing of the data
+        - `apply_transform`: default None, supports "stft" or "fft" preprocessing of the data
         - `is_regression`: if the labels are regression or classification labels
         - `label_dict`: dict to map classification strings to a numerical representation
         """

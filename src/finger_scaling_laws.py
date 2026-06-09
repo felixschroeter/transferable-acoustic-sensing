@@ -18,8 +18,6 @@ from itertools import combinations
 def non_empty_subsets(lst):
     """
     Find all non empty subsets of a list
-
-    Generated using ChatGPT
     """
     subsets = []
     for r in range(1, len(lst) + 1):
@@ -37,7 +35,7 @@ if __name__ == "__main__":
     subsets = non_empty_subsets(finger_ids)
     results = []
     for train_subset in subsets[:-1]:
-        # concat the ids from the training set and overrride the finger_id with the concatenation in the data
+        # concat the ids from the training set and override the finger_id with the concatenation in the data
         # this is necessary for the downstream script to work
         train_id = "".join(train_subset)
         df_train = df.copy()

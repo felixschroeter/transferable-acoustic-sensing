@@ -10,6 +10,8 @@ and the dummy drop-in `Identity`
 import torch.nn as nn
 import torch.autograd as autograd
 
+from preprocessing import STFT_N_FFT
+
 
 def create_mlp(
     layer_dims=[],
@@ -24,7 +26,7 @@ def create_mlp(
     - `activation`: the activation function to use between layers (default ReLU)
     - `use_dropout`: if dropouts should be introduced after each layer
     - `dropout_p`: probability parameter for the dropout
-    - `use_batch_norm`: wether to use batchnorm after each layer
+    - `use_batch_norm`: whether to use batchnorm after each layer
 
     returns a list of the defined layers that can be passed to nn.Sequential
     """
@@ -98,20 +100,19 @@ class MLP(nn.Module):
         - `decoder_hidden_dims`: list of the hidden dims of the decoder
         - `domain_classifier_hidden_dims`: list of the hidden dims of the domain_classifier
         - `apply_transform`: if 'fft' or 'stft' is applied to the data
-        - `use_batch_norm`: if the model shoudl use batch norm (currently unused)
+        - `use_batch_norm`: if the model should use batch norm (currently unused)
         - `use_GeLU`: if the model should use GeLU instead of ReLU
         """
         super().__init__()
         self.domain_latent_dims = domain_latent_dims
 
-        # adapt dimensions in case preprocessing is applied
-        if apply_transform == "fft":
-            sample_dims = sample_dims // 2
-
+        # The input dimension depends on the preprocessing applied to the raw
+        # window. The real FFT and the STFT both reduce a length-N window to
+        # N // 2 + 1 frequency bins ("raw" leaves the window untouched).
         if apply_transform == "stft":
-            sample_dims = 2049
-
-        sample_dims = 2049
+            sample_dims = STFT_N_FFT // 2 + 1
+        elif apply_transform == "fft":
+            sample_dims = sample_dims // 2 + 1
 
         activation = nn.GELU if use_GeLU else nn.ReLU
         encoder_layers = create_mlp(

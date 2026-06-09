@@ -24,7 +24,7 @@ import utils
 class AudioDataModule(lightning.LightningDataModule):
     """
     Encapsulates the logic for creating datasets and dataloaders from the configs.
-    Works natively with torch lighnting and is called from the lightning module directly.
+    Works natively with torch lightning and is called from the lightning module directly.
 
     """
 
@@ -52,13 +52,13 @@ class AudioDataModule(lightning.LightningDataModule):
     ):
         """
         Initialize a new AudioDataModule with the corresponding config parameters.
-        The parametres are explained in their corresponding hydra configs.
+        The parameters are explained in their corresponding hydra configs.
         """
         super().__init__()
 
         self.model_name = model_name
 
-        # base directory where all recordings are sctores
+        # base directory where all recordings are stored
         self.data_basedir = data_basedir
 
         # dataset configs
@@ -103,7 +103,7 @@ class AudioDataModule(lightning.LightningDataModule):
         Create a dataset from a dataset config.
         - `config`: the configuration, a hydra config for the dataset as defined in src/conf/datasets
         - `is_unlabeled`: If true, creates an unlabeled dataset else expects labels in the filenames
-        - `is_regression`: Indiciates if the dataset has regression or classification labels
+        - `is_regression`: Indicates if the dataset has regression or classification labels
 
         returns a Dataset that corresponds to the config and parameters
         """
@@ -308,7 +308,6 @@ class AudioDataModule(lightning.LightningDataModule):
         """
         Create and return the validation dataloaders
         """
-        datasets = [self.val_dataset, self.val_regression_dataset]
         datasets = ConcatDataset(self.val_dataset + self.val_regression_dataset)
 
         return torch.utils.data.DataLoader(

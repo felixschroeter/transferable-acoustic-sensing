@@ -5,10 +5,10 @@ The main script to run the training loop for the neural network based approach,
 or generate the normalized samples for the other approaches.
 
 usage (from project root):
-    - sh run_mlflow.sh  # start MLFlow server (required)
+    - sh run_mlflow.sh  # start MLflow server (required)
     - uv run src/main.py  # run training script
 
-For advanced cli options for overriding the config on invokation, refer to the hydra.cc docs:
+For advanced cli options for overriding the config on invocation, refer to the hydra.cc docs:
     https://hydra.cc/docs/intro/
 
 """
@@ -74,7 +74,7 @@ def main(cfg) -> None:
         monitor="val_loss", patience=20
     )
 
-    # configure MLFLow logging
+    # configure MLflow logging
     mlflow.pytorch.autolog(checkpoint=True)  # pyright: ignore[notExportedIssue]
     mlflow.set_tracking_uri("http://localhost:5000")
     mlflow_checkpoint_callback = MlflowModelCheckpointCallback(
@@ -89,11 +89,11 @@ def main(cfg) -> None:
         max_epochs=cfg["training"]["max_epochs"],
     )
 
-    # start a new MLFlow run and start training
+    # start a new MLflow run and start training
     with mlflow.start_run(
         description=f"{cfg['model']['name']} for {cfg['experiment_name']}"
     ):
-        # log the config to MLFlow
+        # log the config to MLflow
         mlflow.log_text(OmegaConf.to_yaml(cfg), "hydra_config.yaml")
 
         # the identity model simply returns the inputs unprocessed and does not need to be trained

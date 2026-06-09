@@ -26,7 +26,7 @@ class MorphEmbedModel(lightning.LightningModule):
             - `batch_size`: the batch size (only required so the logging works correctly)
         """
         super().__init__()
-        # save the hyperparameters to make the reloadable
+        # save the hyperparameters to make them reloadable
         self.save_hyperparameters()
 
         self.model_name = model_name
@@ -36,7 +36,7 @@ class MorphEmbedModel(lightning.LightningModule):
         elif model_name == "identity_model":
             self.model = models.Identity()
 
-        # hard-coded parameters -> move to config at some point
+        # loss component weights and number of domain-specific latent dimensions
         self.num_domain_latents = 2
         self.alpha = 0.5
         self.beta = 0
@@ -82,7 +82,6 @@ class MorphEmbedModel(lightning.LightningModule):
             labels,
             labels_predicted,
             has_labels,
-            non_domain_latents,
         )
 
         # log the losses
@@ -122,7 +121,6 @@ class MorphEmbedModel(lightning.LightningModule):
             labels,
             labels_predicted,
             has_labels,
-            non_domain_latents,
         )
 
         # log the losses
@@ -135,8 +133,6 @@ class MorphEmbedModel(lightning.LightningModule):
         """
         For a `batch` with `batch_idx` from dataloader `dataloader_idx`, pass all samples through the model
         and collect their embeddings
-
-        Got the idea to collect the outputs in a dict by dataloader from asking ChatGPT
         """
         # unpack batch
         xs, labels = batch["x"], batch["label"]
